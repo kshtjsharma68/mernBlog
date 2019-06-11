@@ -1,0 +1,19 @@
+.Head{
+    color: white;
+    text-align: center;
+}
+.Box{
+    background: #282c34 !important;
+    border: 1px solid white;
+}
+.login_input {
+    background-color: #282c34 !important;
+    border: 0px #282c34 !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid white !important;
+    margin-top: 10px;
+    color: white !important;
+}
+.login_input::placeholder {
+    color:white !important;
+}
