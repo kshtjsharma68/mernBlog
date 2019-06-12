@@ -17,3 +17,6 @@
 .login_input::placeholder {
     color:white !important;
 }
+.selected {
+    background: grey !important;
+}

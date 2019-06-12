@@ -66,7 +66,7 @@ export default class Login extends Component {
     
 
     render() {
-        let { login, hasError } = this.state;console.log('herere', this.state)
+        let { login, hasError } = this.state;
         if (hasError) {
             return (
                 <h3>Oop's something went wrong..</h3>
@@ -79,8 +79,8 @@ export default class Login extends Component {
                     <div className="columns" style={{borderBottom: '1px solid white'}}>
                         <h3 className="column" style={{float: 'left', color: 'white'}}>Blog</h3>
                         <div className="column" style={{float: 'right'}}>
-                            <Button color="white" size="small" rounded onClick={e => this.changeForm(false)}>SignUp</Button>&nbsp;
-                            <Button color="white" size="small" selected rounded onClick={e => this.changeForm(true)}>Login</Button>
+                            <Button className={!login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(false)}>SignUp</Button>&nbsp;
+                            <Button className={login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(true)}>Login</Button>
                         </div>
                     </div>
                     {
