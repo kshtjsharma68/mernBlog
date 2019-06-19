@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import "./style.css";
 import { Button, Box } from "react-bulma-components/full";
+import {connect} from 'react-redux';
 
 //This is a class component
-export default class Login extends Component {
+class Login extends Component {
     //Very first thing to work
     constructor(props) {
         super(props);
@@ -103,3 +104,25 @@ export default class Login extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    console.log('state, mapStateToProps')
+
+    return {
+        state
+    }
+}
+
+const mapDispatchTopProps = dispatch => {
+    return {
+        signIn: (cred) => {
+            console.log('credential',cred)
+            dispatch({
+                type: "SIGNIN",
+                payload: cred
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchTopProps);
