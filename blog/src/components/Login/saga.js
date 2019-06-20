@@ -5,10 +5,11 @@ import loginHelper from '../../helpers/loginHelper';
 export function* signIn() {
     try {
         const { payload } = yield take(SIGN_IN);
+        if ( yield loginHelper.validateLoginForm(payload) ) {
+            const check = yield call(loginHelper.checkCredentials,payload);  //for passing arguments seperatly
+        }
 
-        const check = yield call(loginHelper.checkCredentials,payload);  //for passing arguments seperatly
-        const check2 = yield loginHelper.checkCredentials(payload);  //Direct function calling
-    } catch (e) {console.log('errorrororo')
+    } catch (e) {
         console.error('Error', e)
     }
 }
