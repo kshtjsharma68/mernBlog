@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import "./style.css";
 import { Button, Box } from "react-bulma-components/full";
 import {connect} from 'react-redux';
-import { loginIn } from './actions';
+import { loginIn, registerUser } from './actions';
 
 //This is a class component
 class Login extends Component {
@@ -83,10 +83,13 @@ class Login extends Component {
     }
 
     submitLogin = _ => {
-        let { form } = this.state
-        const { signIn } = this.props
-
-        signIn(form)
+        let { form, login } = this.state
+        const { signIn, register } = this.props
+        if ( login ) {
+            signIn(form)
+        } else {
+            register(form)
+        }
     }
     
 
@@ -114,13 +117,13 @@ class Login extends Component {
                             <div>
                                 <input className="input login_input" name="email" type="text" value={form.email} placeholder="Email Address" onChange={e => this.handleInuput(e)}></input>
                                 <input className="input login_input" type="password" name="password" value={form.password} onChange={e => this.handleInuput(e)} placeholder="********"></input>
-                                <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={this.submitLogin}  outlined>Login</Button>
+                                <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitLogin()}  outlined>Login</Button>
                             </div>
                             :
                             <div>
-                                <input className="input login_input" type="text" placeholder="Email Address"></input>
-                                <input className="input login_input" type="password" placeholder="********"></input>
-                                <Button className="" style={{top: '10px'}} color="success" size="medium"  outlined>SignUp</Button>
+                                <input className="input login_input" type="text" value={form.email} placeholder="Email Address"></input>
+                                <input className="input login_input" type="password" value={form.password} placeholder="********"></input>
+                                <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitLogin()} outlined>SignUp</Button>
                             </div>
                         }
                     </Box>
@@ -137,6 +140,9 @@ const mapDispatchTopProps = dispatch => {
     return {
         signIn: payload => {
             dispatch(loginIn(payload))
+        },
+        register: payload => {
+            dispatch(registerUser(payload))
         }
     }
 }

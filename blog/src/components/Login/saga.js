@@ -1,21 +1,41 @@
-import {takeLatest, put, take, call, all, fork} from 'redux-saga/effects';
-import { SIGN_IN } from './actions';
+import {takeEvery, put, take, call, all, fork} from 'redux-saga/effects';
+import { SIGN_IN, REGISTER } from './actions';
 import loginHelper from '../../helpers/loginHelper';
+import Notification from '../../helpers/notificationHelper';
 
-export function* signIn() {
-    try {
-        const { payload } = yield take(SIGN_IN);
-        if ( yield loginHelper.validateLoginForm(payload) ) {
-            const check = yield call(loginHelper.checkCredentials,payload);  //for passing arguments seperatly
+export function* watchSignIn() {
+    yield takeEvery(SIGN_IN, function* ({payload}) {
+        try {
+            if ( yield loginHelper.validateLoginForm(payload) ) {
+                let login = yield call(loginHelper.checkCredentials,payload);  //for passing arguments seperatly
+            } else {
+                let prop = {
+                              type: 'error',
+                              msg: 'No valid details to login into system. Fill all fields'  
+                            };console.log(prop)
+                return Notification(prop);
+            }
+    
+        } catch (e) {
+            Notification({ type: 'error', msg: JSON.stringify(e) });
         }
+    });
+        
+}
 
-    } catch (e) {
-        console.error('Error', e)
-    }
+export function* register() {
+    yield takeEvery(REGISTER, function* ({payload}) {
+        if ( yield loginHelper.validateLoginForm(payload) ) {
+            let regsiter_response = yield call(loginHelper.createUser, payload);
+            console.info(regsiter_response)
+        }
+    });
+    
 }
 
 export default function* loginSaga() {
     yield all([
-        fork(signIn)
+        fork(watchSignIn),
+        fork(register)
     ]);
 }
