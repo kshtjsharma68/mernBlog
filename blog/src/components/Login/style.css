@@ -3,7 +3,7 @@
     text-align: center;
 }
 .Box{
-    background: #282c34 !important;
+    background: #607d8c !important;
     border: 1px solid white;
 }
 .login_input {
@@ -22,7 +22,7 @@
 }
 
 .App {
-    background-color: #282c34;
+    background-color: #b5b5b5;
     text-align: center;
     min-height: 100vh;
     display: flex;

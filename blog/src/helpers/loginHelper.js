@@ -24,6 +24,24 @@ class loginHelper {
                         .then(res => res.json())
                         .catch(e => new Error(JSON.stringify(e)))
     }
+
+    validateRegisterForm = payload => {
+            let { username, email, password, cpassword } = payload
+            if ( username.length && email.length && password.length && cpassword.length ) {
+                if ( password !== cpassword ) {
+                    return {
+                                error: true,
+                                msg : 'Password and confirm password are not same.'
+                            };
+                }
+                return {error:false};
+            } else {
+                return {
+                            error: true,
+                            msg: 'Field are empty..'
+                        };
+            }
+    }
 }
 
 export default new loginHelper();

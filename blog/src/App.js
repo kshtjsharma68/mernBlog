@@ -1,7 +1,6 @@
 import React from 'react';
-import Login from './components/Login';
 import { Provider } from 'react-redux';
-
+import Routes from './components/Router';
 import store from './store';
 
 /**
@@ -12,7 +11,7 @@ import store from './store';
 function App() {
   return (
     <Provider store={store}>
-        <Login />
+        <Routes />
     </Provider>
   );
 }

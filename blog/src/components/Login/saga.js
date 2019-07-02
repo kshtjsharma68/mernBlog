@@ -12,7 +12,7 @@ export function* watchSignIn() {
                 let prop = {
                               type: 'error',
                               msg: 'No valid details to login into system. Fill all fields'  
-                            };console.log(prop)
+                            };
                 return Notification(prop);
             }
     
@@ -24,13 +24,25 @@ export function* watchSignIn() {
 }
 
 export function* register() {
-    yield takeEvery(REGISTER, function* ({payload}) {
-        if ( yield loginHelper.validateLoginForm(payload) ) {
-            let regsiter_response = yield call(loginHelper.createUser, payload);
-            console.info(regsiter_response)
-        }
-    });
-    
+    try {
+        yield takeEvery(REGISTER, function* ({payload}) {
+            let {error, msg}     = yield loginHelper.validateRegisterForm(payload);
+            if ( !error ) {
+                let regsiter_response = yield call(loginHelper.createUser, payload);
+                console.info(regsiter_response)
+            } else {
+                return Notification({
+                              type: 'error',
+                              msg: `${msg}`  
+                            });
+            }
+        });
+    } catch(e) {
+                return Notification({
+                              type: 'error',
+                              msg: `${e}`  
+                            });
+    }    
 }
 
 export default function* loginSaga() {

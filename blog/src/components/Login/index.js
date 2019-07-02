@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./style.css";
-import { Button, Box } from "react-bulma-components/full";
+import { Button, Box, Container } from "react-bulma-components/full";
 import {connect} from 'react-redux';
 import { loginIn, registerUser } from './actions';
 
@@ -12,16 +12,23 @@ class Login extends Component {
         this.state = {
             login: true,
             hasError: false,
+            title: 'Login',
             form: {
                 email : '',
                 password: ''
+            },
+            register: {
+                username: '',
+                email: '',
+                password: '',
+                cpassword: '',
             }
         };
     }
 
-    changeForm = login => {
+    changeForm = (login, title) => {
         this.setState(prevState =>(
-            {...prevState, login}
+            {...prevState, login, title}
         ));
     }
 
@@ -70,7 +77,7 @@ class Login extends Component {
     //     console.error(error, info)
     // }
 
-    handleInuput = e => {
+    handleLoginInuput = e => {
         let { name, value } = e.target;
         let { form }        = this.state; 
         this.setState(prevState => ({
@@ -82,19 +89,33 @@ class Login extends Component {
         }));
     }
 
+    handleRegisterInputs = e => {
+        let { name, value } = e.target;
+        let { register }    = this.state;
+        this.setState(prevState => ({
+            ...prevState,
+            register: {
+                ...register,
+                [name]: value
+            }
+        }));
+    }
+
     submitLogin = _ => {
         let { form, login } = this.state
-        const { signIn, register } = this.props
-        if ( login ) {
-            signIn(form)
-        } else {
-            register(form)
-        }
+        const { signIn } = this.props
+        signIn(form)
+    }
+
+     submitRegister = _ => {
+        let { register, login } = this.state
+        const { registerUser } = this.props
+            registerUser(register)
     }
     
 
     render() {
-        let { login, hasError, form } = this.state;
+        let { login, hasError, form, register, title } = this.state;
         if (hasError) {
             return (
                 <h3>Oop's something went wrong..</h3>
@@ -103,30 +124,37 @@ class Login extends Component {
 
         return (
                 <div className="App">
-                    <Box className="Box" style={{minWidth: '400px'}}>
-                        <div className="columns" style={{borderBottom: '1px solid white'}}>
-                            <h3 className="column" style={{float: 'left', color: 'white'}}>Blog</h3>
-                            <div className="column" style={{float: 'right'}}>
-                                <Button className={login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(false)}>SignUp</Button>&nbsp; 
-                                <Button className={!login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(true)}>Login</Button>
+                    <Container fluid style={{maxWidth: '600px'}}>
+                        <Box className="Box" style={{minWidth: '400px'}}>
+                            <div className="columns" style={{borderBottom: '1px solid white'}}>
+                                <h3 className="column" style={{float: 'left', color: 'white'}}>{title}</h3>
+                                <div className="column" style={{float: 'right'}}>
+                                    <Button className={login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(false, 'Registration')}>SignUp</Button>&nbsp; 
+                                    <Button className={!login ? "selected" : ""} color="white" size="small" rounded onClick={e => this.changeForm(true, 'Blog')}>Login</Button>
+                                </div>
                             </div>
-                        </div>
-                        {
-                            login
-                            ?
-                            <div>
-                                <input className="input login_input" name="email" type="text" value={form.email} placeholder="Email Address" onChange={e => this.handleInuput(e)}></input>
-                                <input className="input login_input" type="password" name="password" value={form.password} onChange={e => this.handleInuput(e)} placeholder="********"></input>
-                                <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitLogin()}  outlined>Login</Button>
-                            </div>
-                            :
-                            <div>
-                                <input className="input login_input" type="text" value={form.email} placeholder="Email Address"></input>
-                                <input className="input login_input" type="password" value={form.password} placeholder="********"></input>
-                                <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitLogin()} outlined>SignUp</Button>
-                            </div>
-                        }
-                    </Box>
+                            {
+                                login
+                                ?
+                                <div>
+                                    <input className="input login_input" name="email" type="text" value={form.email} placeholder="Email Address" onChange={e => this.handleLoginInuput(e)}></input>
+                                    <input className="input login_input" type="password" name="password" value={form.password} onChange={e => this.handleLoginInuput(e)} placeholder="********"></input>
+                                    <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitLogin()}  outlined>Login</Button>
+                                </div>
+                                :
+                                <div>
+                                    <input className="input login_input" type="email" name="email" onChange={e => this.handleRegisterInputs(e)} value={register.email} placeholder="Email Address"></input>
+
+                                    <input className="input login_input" type="text" value={register.username} name="username" onChange={e => this.handleRegisterInputs(e)} placeholder="Username"></input>
+                                    <input className="input login_input" type="password" name="password" onChange={e => this.handleRegisterInputs(e)} value={register.password} placeholder="********"></input>
+
+                                    <input className="input login_input" type="password" name="cpassword" onChange={e => this.handleRegisterInputs(e)} value={register.cpassword} placeholder="********"></input>
+
+                                    <Button className="" style={{top: '10px'}} color="success" size="medium" onClick={() => this.submitRegister()} outlined>SignUp</Button>
+                                </div>
+                            }
+                        </Box>
+                    </Container>    
                 </div>  
         );
     }
@@ -141,7 +169,7 @@ const mapDispatchTopProps = dispatch => {
         signIn: payload => {
             dispatch(loginIn(payload))
         },
-        register: payload => {
+        registerUser: payload => {
             dispatch(registerUser(payload))
         }
     }
