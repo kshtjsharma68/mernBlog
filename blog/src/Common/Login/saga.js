@@ -1,7 +1,7 @@
 import {takeEvery, put, take, call, all, fork} from 'redux-saga/effects';
 import { SIGN_IN, REGISTER } from './actions';
-import loginHelper from '../../helpers/loginHelper';
-import Notification from '../../helpers/notificationHelper';
+import loginHelper from '../helpers/loginHelper';
+import Notification from '../helpers/notificationHelper';
 
 export function* watchSignIn() {
     yield takeEvery(SIGN_IN, function* ({payload}) {
@@ -17,7 +17,7 @@ export function* watchSignIn() {
             }
     
         } catch (e) {
-            Notification({ type: 'error', msg: JSON.stringify(e) });
+            Notification({ type: 'error', msg: `Oop's something went wrong..` });
         }
     });
         

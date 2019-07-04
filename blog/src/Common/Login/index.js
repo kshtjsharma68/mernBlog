@@ -164,7 +164,7 @@ const mapStateToProps = state => ({
     loggedIn: state.login.signin
 })
 
-const mapDispatchTopProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         signIn: payload => {
             dispatch(loginIn(payload))
@@ -175,4 +175,4 @@ const mapDispatchTopProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchTopProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

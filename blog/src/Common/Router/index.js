@@ -1,7 +1,8 @@
 import React from 'react';
 import Login from '../Login';
+import Home from '../../Users/components/Home';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import noMatch from '../nomatch';
+import noMatch from '../../Users/components/nomatch';
 
 const Routes = _ => {
 	return (
@@ -16,6 +17,11 @@ const Routes = _ => {
 					exact
 					path="/"
 					component={Login}
+				/>
+				<Route 
+					exact
+					path="/home"
+					component={Home}
 				/>
 				<Route 
 					path="/404"
