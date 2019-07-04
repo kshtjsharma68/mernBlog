@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from '../Partials/header';
+import Footer from '../Partials/footer';
 
 class Home extends Component {
 
