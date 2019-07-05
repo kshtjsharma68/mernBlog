@@ -29,7 +29,7 @@ export function* register() {
             let {error, msg}     = yield loginHelper.validateRegisterForm(payload);
             if ( !error ) {
                 let regsiter_response = yield call(loginHelper.createUser, payload);
-                console.info(regsiter_response)
+                console.info(regsiter_response, window)
             } else {
                 return Notification({
                               type: 'error',

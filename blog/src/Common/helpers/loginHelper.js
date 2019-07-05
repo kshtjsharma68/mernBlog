@@ -22,7 +22,7 @@ class loginHelper {
         let { email, password } = payload;
         return await superFetch.post('/auth/register', payload)
                         .then(res => res.json())
-                        .catch(e => new Error(JSON.stringify(e)))
+                        .catch((e) => new Error(JSON.stringify(e)))
     }
 
     validateRegisterForm = payload => {
